@@ -24,6 +24,12 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID", "G_AUTHUSER_H") // Видаляємо куки
+                )
+                .sessionManagement(session -> session
+                        .invalidSessionUrl("/login?timeout") // Редирект після таймауту
+                        .sessionFixation().migrateSession()
+                        .maximumSessions(1)
+                        .expiredUrl("/login?timeout") // Вихід після таймауту
                 );
 
         return http.build();
